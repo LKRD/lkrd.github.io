@@ -190,7 +190,7 @@ int input_register_handle(struct input_handle *handle)
 ```
 &emsp;&emsp;此接口调用了list_add_tail_rcu，将新的链表元素handle->d_node和handle->h_node添加到被CRU保护的链表dev->h_list和handler->h_list的末尾，内存栅保证了在引用这个新插入的链表元素之前，新链表的链接指针的修改对所有读执行单元是可见的。
 &emsp;&emsp;input_dev，input_handler，input_handle这三者的链表关系如下：
-<center>![](/home/linweilian/Documents/TP/input结构体中链表的关系图.jpg)</center>
+<center>![](input结构体中链表的关系图.jpg)</center>
 
 &emsp;&emsp;在上图中每个dev或handler匹配后都会对应一个handle，所以其实对于input_dev与input_handler是一个多对多的关系，一个dev可以对应多个handler，一个handler也可以对应多个dev。
 

@@ -79,12 +79,21 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="Linux Input Subsystem    作者：林伟炼    E-mail:linwl@gionee.com   &amp;emsp;&amp;emsp;最基本的认知：一个设备驱动申请input设备并且注册，之后配置一些相关参数，在驱动加载成功后会在文件系统的/dev/input/目录下生成对应的eventX的事件设备结点，假如对于TP设备，我们触摸屏幕，在Android下使用getevent工具就可以">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Linux Kernel Research and Development">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/01/22/Linux Input Subsytem/index.html">
 <meta property="og:site_name" content="Linux Kernel Research and Development">
+<meta property="og:description" content="Linux Input Subsystem    作者：林伟炼    E-mail:linwl@gionee.com   &amp;emsp;&amp;emsp;最基本的认知：一个设备驱动申请input设备并且注册，之后配置一些相关参数，在驱动加载成功后会在文件系统的/dev/input/目录下生成对应的eventX的事件设备结点，假如对于TP设备，我们触摸屏幕，在Android下使用getevent工具就可以">
+<meta property="og:image" content="http://yoursite.com/home/linweilian/Documents/TP/observer%20design%20mode.jpg">
+<meta property="og:image" content="http://yoursite.com/home/linweilian/Documents/TP/input整体关系图.jpg">
+<meta property="og:image" content="http://yoursite.com/home/linweilian/Documents/TP/Input%20Subsystem.png">
+<meta property="og:image" content="http://yoursite.com/home/linweilian/Documents/TP/input结构体中链表的关系图.jpg">
+<meta property="og:updated_time" content="2018-01-22T01:34:37.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux Kernel Research and Development">
+<meta name="twitter:description" content="Linux Input Subsystem    作者：林伟炼    E-mail:linwl@gionee.com   &amp;emsp;&amp;emsp;最基本的认知：一个设备驱动申请input设备并且注册，之后配置一些相关参数，在驱动加载成功后会在文件系统的/dev/input/目录下生成对应的eventX的事件设备结点，假如对于TP设备，我们触摸屏幕，在Android下使用getevent工具就可以">
+<meta name="twitter:image" content="http://yoursite.com/home/linweilian/Documents/TP/observer%20design%20mode.jpg">
 
 
 
@@ -114,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/22/Linux Input Subsytem/"/>
 
 
 
 
 
-  <title>Linux Kernel Research and Development</title>
+  <title> | Linux Kernel Research and Development</title>
   
 
 
@@ -139,8 +148,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -213,9 +221,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -245,9 +253,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/22/Linux Input Subsytem/" itemprop="url">Unbenannt</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -297,9 +303,7 @@
       
 
       
-        
-          
-            <center> <font color="#000000" size="6" face="Calibri"><strong>Linux Input Subsystem</strong></font> </center>
+        <center> <font color="#000000" size="6" face="Calibri"><strong>Linux Input Subsystem</strong></font> </center>
 
 <center> <font color="#C0C0C0" size="2" face="Calibri">作者：林伟炼</font> </center>
 
@@ -341,8 +345,6 @@
 <h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>&emsp;&emsp;本文通过observer设计模式展开对input系统的理解，以evdev为例，讲到在初始化阶段利用了多对多的设计模型，input_handle是如何将input_dev和input_handler绑定在一起，device driver又是如何通过input_event上报数据的，到这里其实也只是看到input子系统的某一部分，在更多的使用input子系统并且调用其接口时才能够体会设计的妙处，例如里面用到的RCU机制，对于Android上如何获取input上报的数据和上报数据的格式后续再探讨。</p>
 <p>参考资料<br>[1] 设计模式之观察者模式Observer <a href="http://blog.csdn.net/hguisu/article/details/7556625" target="_blank" rel="noopener">http://blog.csdn.net/hguisu/article/details/7556625</a><br>[2] Linux Input子系统 <a href="http://blog.chinaunix.net/uid-29151914-id-3887032.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-29151914-id-3887032.html</a><br>[3] LINUX下input子系统分析 <a href="http://blog.csdn.net/tang_jin_chan/article/details/9771435" target="_blank" rel="noopener">http://blog.csdn.net/tang_jin_chan/article/details/9771435</a></p>
 
-          
-        
       
     </div>
     
@@ -359,140 +361,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/19/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="William Linchen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Linux Kernel Research and Development">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/19/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-19T16:37:09+08:00">
-                2018-01-19
-              </time>
+              <a href="/2018/01/19/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -502,10 +392,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -513,6 +404,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -533,8 +428,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -576,6 +480,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#observer设计模式"><span class="nav-number">1.</span> <span class="nav-text">observer设计模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#input-subsystem框架详细分析"><span class="nav-number">2.</span> <span class="nav-text">input subsystem框架详细分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -709,6 +629,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

@@ -1,2 +1,7 @@
+.DS_Store
+Thumbs.db
 db.json
-themes/landscape/*
+*.log
+node_modules/
+public/
+.deploy*/

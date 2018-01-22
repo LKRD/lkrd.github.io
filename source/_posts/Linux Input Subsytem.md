@@ -1,8 +1,7 @@
-<center> <font color=#000000 size=6 face="Calibri">**Linux Input Subsystem**</font> </center>
-
-<center> <font color=#C0C0C0 size=2 face="Calibri">作者：林伟炼</font> </center>
-
-<center> <font color=#C0C0C0 size=2 face="Calibri">E-mail:linwl@gionee.com</font> </center>
+---
+title: <center> <font color=#000000 size=6 face="Calibri">Linux Input Subsystem</font> </center>
+date: 2018-01-22
+---
 
 &emsp;&emsp;最基本的认知：一个设备驱动申请input设备并且注册，之后配置一些相关参数，在驱动加载成功后会在文件系统的/dev/input/目录下生成对应的eventX的事件设备结点，假如对于TP设备，我们触摸屏幕，在Android下使用getevent工具就可以获取到数据，应用通过这些数据就可以上报给系统发生了什么。
 
@@ -30,7 +29,7 @@
 &emsp;&emsp;观察者(Observer)：为那些在目标发生改变时需获得通知的对象定义一个更新接口。当它的状态发生改变时, 向它的各个观察者发出通知。
 &emsp;&emsp;具体观察者(ConcreteObserver)：维护一个指向ConcreteSubject对象的引用。存储有关状态，这些状态应与目标的状态保持一致。实现Observer的更新接口以使自身状态与目标的状态保持一致。
 &emsp;&emsp;其结构如下：
-<center>![](/home/linweilian/Documents/TP/observer design mode.jpg) </center>
+<center>![](observer design mode.jpg) </center>
 
 &emsp;&emsp;详细可查看参考资料[1]
 
@@ -40,7 +39,7 @@
 #### input subsystem框架详细分析
 &emsp;&emsp;此代码分析是基于linux 3.18内核代码
 &emsp;&emsp;我们从三个模块进行分析input整个框架，包括input device driver，input core，input event handler，详细的模块之间的调用关系框图如下图所示：
-<center>![](/home/linweilian/Documents/TP/Input Subsystem.png)</center>
+<center>![](Input Subsystem.png)</center>
 
 &emsp;&emsp;在上图可以看到input子系统中提供了三个很重要的结构体，包括**input_dev**，描述input设备，**input_handler**描述了事件处理的各种方法和**input_handle**描述了dev和handler的对应关系，这些在inpu.h中都有其描述。
 &emsp;&emsp;作为驱动开发者，input device driver是必须要很熟悉的，这里是驱动开发者发挥的地方，通过调用input core中的接口申请device，注册device和上报数据。

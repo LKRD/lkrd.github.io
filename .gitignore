@@ -1,6 +1,4 @@
-*.json
 node_modules/*
 public/*
-scaffolds/*
-themes/*
+themes/landscape/*
 

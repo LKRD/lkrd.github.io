@@ -79,13 +79,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Linux Kernel Research and Development">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="GIC - Generic Interrupt Controller 通用中断控制器PE - Processing elementsLPIs - Locality-specific Peripheral InterrruptsPPIs - Private Peripheral InterrruptsSGIs - Software Generated InterruptsSPIs - Shared">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;center&gt; Linux Interrupt Subsystem &lt;&#x2F;center&gt;">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/Linux-Interrupt-Subsystem/index.html">
 <meta property="og:site_name" content="Linux Kernel Research and Development">
+<meta property="og:description" content="GIC - Generic Interrupt Controller 通用中断控制器PE - Processing elementsLPIs - Locality-specific Peripheral InterrruptsPPIs - Private Peripheral InterrruptsSGIs - Software Generated InterruptsSPIs - Shared">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/Linux-Interrupt-Subsystem/中断控制器GIC.png">
+<meta property="og:updated_time" content="2018-01-23T03:58:24.856Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux Kernel Research and Development">
+<meta name="twitter:title" content="&lt;center&gt; Linux Interrupt Subsystem &lt;&#x2F;center&gt;">
+<meta name="twitter:description" content="GIC - Generic Interrupt Controller 通用中断控制器PE - Processing elementsLPIs - Locality-specific Peripheral InterrruptsPPIs - Private Peripheral InterrruptsSGIs - Software Generated InterruptsSPIs - Shared">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/23/Linux-Interrupt-Subsystem/中断控制器GIC.png">
 
 
 
@@ -115,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/23/Linux-Interrupt-Subsystem/"/>
 
 
 
 
 
-  <title>Linux Kernel Research and Development</title>
+  <title><center> Linux Interrupt Subsystem </center> | Linux Kernel Research and Development</title>
   
 
 
@@ -140,8 +146,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -244,9 +249,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -276,9 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/23/Linux-Interrupt-Subsystem/" itemprop="url"><center> Linux Interrupt Subsystem </center></a></h1>
+          <h1 class="post-title" itemprop="name headline"><center> Linux Interrupt Subsystem </center></h1>
         
 
         <div class="post-meta">
@@ -328,18 +331,14 @@
       
 
       
-        
-          
-          GIC - Generic Interrupt Controller 通用中断控制器PE - Processing elementsLPIs - Locality-specific Peripheral InterrruptsPPIs - Private Peripheral Interrrupts
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/23/Linux-Interrupt-Subsystem/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p>GIC - Generic Interrupt Controller 通用中断控制器<br>PE - Processing elements<br>LPIs - Locality-specific Peripheral Interrrupts<br>PPIs - Private Peripheral Interrrupts<br>SGIs - Software Generated Interrupts<br>SPIs - Shared Peripheral Interrupts<br>ITS - Interrupt Translation Service<br>IRI - Interrupt Routing Infrastructure</p>
+<p>编写目的<br>Linux驱动工程师理解和编写外设驱动的同时一个最基本的要求就是能够使用好中断处理，但往往只是会调用某些常用的中断API接口还远远不够，我们需要深入理解中断子系统的方方面面，才能在linux不断变化的过程中能够及时学会和使用中断子系统。</p>
+<p>一  中断子系统整体框架<br>下面将会从硬件和软件这两方面入手，讲解中断子系统整体框架。</p>
+<p>中断子系统硬件描述<br>中断子系统硬件上主要由三个角色构成，外设、中断控制器和处理器，外设需要向CPU发起中断时可通过中断信号线直接向CPU申请中断，由于现在的电子设备外设越来越多，需要进行中断的需求也越来越多，并且中断对于系统来说也要有优先级之分，在多CPU情况下有些中断需要多个CPU共同响应，有些只针对某个CPU申请中断，针对以上需求所以才有了中断控制器，ARM里面简称GIC，我们这里只是在ARM+GIC上做解释，在X86平台上又是不同的，X86使用APIC的方式管理中断控制器。</p>
+<p>外设中断：对于外设来说，只需要通过控制GPIO口进行电平变化即可<br>中断控制器GIC：</p>
+<p><center><img src="/2018/01/23/Linux-Interrupt-Subsystem/中断控制器GIC.png" alt=""> </center><br>GIC是ARM公司提供的通用中断控制器，目前（2017）在ARM提供四个architecture specification，即V1~V4，其中V2最多支持8个ARM core，而V3/V4支持更多，主要用在ARM64平台上。由于现在很多平台都是在ARM64上开发，所以我们这里讲解最新的V3/V4的SPEC，以上图片就是V3/V4上对于GIC整体硬件框架的描述图。<br>GIC的组成为一个Distributor，每个PE提供一个Redistributor和一个CPU interface，还有可选的特殊中断处理模块。<br>PE为处理器单元，几个PE可组成一个CPU Cluster，例如MTK P30（MT6758）用的Cortex-A53采用的是8核处理器，内部就是由两个Clusters组成，每个Cluster有4个CPUs；<br>对于SPIs的中断，通过Distributor，再经过Redistributor分发给各个PE，而PPIs可通过Redistributor分发给特定的PE</p>
+<p>中断子系统软件描述<br>中断子系统软件部分由四部分组成：驱动层代码（driver目录下调用中断相关接口的模块），linux内核通用中断处理模块（kernel/irq目录下），中断控制器驱动代码（driver/irqchip目录下），cpu架构相关中断处理</p>
+
       
     </div>
     
@@ -356,138 +355,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/Linux Input Subsytem/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="William Linchen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Linux Kernel Research and Development">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/22/Linux Input Subsytem/" itemprop="url"><center> <font color=#000000 size=6 face="Calibri">Linux Input Subsystem</font> </center></a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00+08:00">
-                2018-01-22
-              </time>
+              <a href="/2018/01/22/Linux Input Subsytem/" rel="next" title="<center> <font color=#000000 size=6 face="Calibri">Linux Input Subsystem</font> </center>">
+                <i class="fa fa-chevron-left"></i> <center> <font color=#000000 size=6 face="Calibri">Linux Input Subsystem</font> </center>
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          &emsp;&emsp;最基本的认知：一个设备驱动申请input设备并且注册，之后配置一些相关参数，在驱动加载成功后会在文件系统的/dev/input/目录下生成对应的eventX的事件设备结点，假如对于TP设备，我们触摸屏幕，在Android下使用getevent工具就可以获取到数据，应用通过这些
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/22/Linux Input Subsytem/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -497,10 +386,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -508,6 +398,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -704,6 +598,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

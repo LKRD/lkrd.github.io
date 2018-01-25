@@ -1,5 +1,5 @@
 ---
-title: <center> <font color=#000000 size=6 face="Calibri">Linux Input Subsystem</font> </center>
+title: <center> Linux Input Subsystem </center>
 date: 2018-01-22
 ---
 
@@ -41,7 +41,7 @@ date: 2018-01-22
 &emsp;&emsp;我们从三个模块进行分析input整个框架，包括input device driver，input core，input event handler，详细的模块之间的调用关系框图如下图所示：
 <center>![](Input Subsystem.png)</center>
 
-&emsp;&emsp;在上图可以看到input子系统中提供了三个很重要的结构体，包括**input_dev**，描述input设备，**input_handler**描述了事件处理的各种方法和**input_handle**描述了dev和handler的对应关系，这些在inpu.h中都有其描述。
+&emsp;&emsp;在上图可以看到input子系统中提供了三个很重要的结构体，包括**input_dev**，描述input设备，**input_handler**描述了事件处理的各种方法和**input_handle**描述了dev和handler的对应关系，这些在input.h中都有其描述。
 &emsp;&emsp;作为驱动开发者，input device driver是必须要很熟悉的，这里是驱动开发者发挥的地方，通过调用input core中的接口申请device，注册device和上报数据。
 &emsp;&emsp;驱动第一步申请input device，并初始化input_dev结构体的成员
 ```bash
@@ -322,7 +322,7 @@ static void __pass_event(struct evdev_client *client,
 ```
 &emsp;&emsp;在上面的各个接口调用下来可以知道最终将event数据的数据类型为EV_SYN并且数据代码为SYN_REPORT时，通过异步通知kill_fasync的方式通知应用。
 
-&emsp;&emsp;上面了解到不同的input device经过初始化抽象出event，handler提供同样的操作对event进行操作，作为被观察者device，其状态的改变都会经过handle通知给观察着handler，handler经过自己的方式（异步通知）通知上层。而有些input设备例如鼠标，其不仅匹配了event handler，还匹配了mouse devcie handler，所以鼠标设备的改变，将会同时通知event device handler和mouse device handler。
+&emsp;&emsp;上面了解到不同的input device经过初始化抽象出event，handler提供同样的操作对event进行操作，作为被观察者device，其状态的改变都会经过handle通知给观察者handler，handler经过自己的方式（异步通知）通知上层。而有些input设备例如鼠标，其不仅匹配了event handler，还匹配了mouse devcie handler，所以鼠标设备的改变，将会同时通知event device handler和mouse device handler。
 
 #### 总结
 &emsp;&emsp;本文通过observer设计模式展开对input系统的理解，以evdev为例，讲到在初始化阶段利用了多对多的设计模型，input_handle是如何将input_dev和input_handler绑定在一起，device driver又是如何通过input_event上报数据的，到这里其实也只是看到input子系统的某一部分，在更多的使用input子系统并且调用其接口时才能够体会设计的妙处，例如里面用到的RCU机制，对于Android上如何获取input上报的数据和上报数据的格式后续再探讨。
